@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, Response, render_template, request, jsonify
 from utils import processing
 from PIL import Image
 import numpy as np
@@ -25,7 +25,15 @@ def upload():
 
     uploaded_image = uploaded_file.read()
 
-    return jsonify({"message": "Image uploaded successfully."})
+    return jsonify({"image": "/uploaded_image"})
+
+@app.route('/uploaded_image')
+def get_uploaded_image():
+    global uploaded_image
+    if uploaded_image is None:
+        return jsonify({"error": "No image uploaded yet."})
+
+    return Response(uploaded_image, mimetype='image/jpeg')
 
 @app.route('/classify', methods=['POST'])
 def classify():

@@ -3,15 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Classification</title>
+    <title>Image Classification Site</title>
+    <style>
+        /* Add some basic styling for better presentation */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .section {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
-    <h1>Image Classification using Google Vision Transformer</h1>
+    <h1>Image Classification Web app using Google Vision Transformer</h1>
 
     <!-- Top Section: Upload Image -->
-    <div id="uploadSection">
+    <div class="section">
+        <h2>Upload Image</h2>
         <form id="imageForm" enctype="multipart/form-data">
-            <label for="image">Upload Image:</label>
+            <label for="image">Select Image:</label>
             <input type="file" name="image" id="image" accept="image/*" required>
             <button type="button" onclick="uploadImage()">Upload Image</button>
         </form>
@@ -19,8 +38,9 @@
     </div>
 
     <!-- Bottom Section: Classify Image -->
-    <div id="classifySection">
-        <button type="button" onclick="classifyImage()" disabled>Classify Image</button>
+    <div class="section">
+        <h2>Classify Image</h2>
+        <button type="button" onclick="classifyImage()">Classify Image</button>
         <div id="result"></div>
     </div>
 
@@ -37,7 +57,7 @@
             .then(data => {
                 document.getElementById('uploadedImage').innerHTML = `
                     <p>Uploaded Image:</p>
-                    <img src="${data.image}" alt="Uploaded Image" style="max-width: 300px;">
+                    <img src="${data.image}" alt="Uploaded Image">
                 `;
                 document.getElementById('classifySection').querySelector('button').disabled = false;
             })
@@ -55,6 +75,7 @@
             .then(response => response.json())
             .then(data => {
                 document.getElementById('result').innerHTML = `
+                    <p>Labels:</p>
                     <p>${data.class}</p>
                 `;
             })
