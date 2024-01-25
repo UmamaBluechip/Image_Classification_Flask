@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Classification</title>
+</head>
+<body>
+    <h1>Image Classification using Google Vision Transformer</h1>
+
+    <!-- Top Section: Upload Image -->
+    <div id="uploadSection">
+        <form id="imageForm" enctype="multipart/form-data">
+            <label for="image">Upload Image:</label>
+            <input type="file" name="image" id="image" accept="image/*" required>
+            <button type="button" onclick="uploadImage()">Upload Image</button>
+        </form>
+        <div id="uploadedImage"></div>
+    </div>
+
+    <!-- Bottom Section: Classify Image -->
+    <div id="classifySection">
+        <button type="button" onclick="classifyImage()" disabled>Classify Image</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function uploadImage() {
+            var form = document.getElementById('imageForm');
+            var formData = new FormData(form);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('uploadedImage').innerHTML = `
+                    <p>Uploaded Image:</p>
+                    <img src="${data.image}" alt="Uploaded Image" style="max-width: 300px;">
+                `;
+                document.getElementById('classifySection').querySelector('button').disabled = false;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function classifyImage() {
+            var form = document.getElementById('imageForm');
+            var formData = new FormData(form);
+
+            fetch('/classify', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerHTML = `
+                    <p>${data.class}</p>
+                `;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

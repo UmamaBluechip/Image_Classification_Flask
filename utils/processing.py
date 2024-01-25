@@ -1,22 +1,23 @@
 from transformers import AutoConfig,ViTImageProcessor,ViTForImageClassification,AutoModel
-import base64
-import os
+from PIL import Image
+import io
 
 processor = ViTImageProcessor.from_pretrained('google/vit-base-patch16-224')
 model = ViTForImageClassification.from_pretrained('google/vit-base-patch16-224')
 
-def image_classifier(image):
-    inputs = processor(images=image, return_tensors="pt")
+
+def image_classifier(image_bytes):
+
+    pil_image = Image.open(io.BytesIO(image_bytes))
+
+    inputs = processor(images=pil_image, return_tensors="pt")
     outputs = model(**inputs)
     logits = outputs.logits
 
     logits_np = logits.detach().cpu().numpy()
-    logits_args = logits_np.argsort()[0][-3:]
+    predicted_class_idx = logits_np.argsort()[0][-1]
+    predicted_class = model.config.id2label[predicted_class_idx]
 
-    prediction_classes = [model.config.id2label[predicted_class_idx] for predicted_class_idx in logits_args]
-    
-    result = {}
-    for i,item in enumerate(prediction_classes):
-        result[item] = logits_np[0][i]
+    result = {"class": predicted_class}
 
     return result
