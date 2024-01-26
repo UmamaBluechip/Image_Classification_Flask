@@ -1,6 +1,8 @@
 # Image Classification Web App
 This project is an interactive web application for image classification using Google's Vision Transformer (ViT). It allows users to upload an image, performs real-time classification using a pre-trained ViT model, and displays the results.
 
+![Main Page](https://github.com/UmamaBluechip/Image_Classification_Flask/blob/main/Screenshots/Classified%20image.png?raw=true)
+
 ## Features
 #### Upload Image: Users can select and upload an image directly through the web interface.
 #### Real-time Classification: The uploaded image is processed using a Vision Transformer model for instant classification.
