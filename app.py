@@ -1,8 +1,5 @@
 from flask import Flask, Response, render_template, request, jsonify
 from utils import processing
-from PIL import Image
-import numpy as np
-import os
 
 app = Flask(__name__)
 
@@ -16,7 +13,7 @@ def index():
 def upload():
     global uploaded_image
     if 'image' not in request.files:
-        return jsonify({"error": "No image file provided."})
+        return jsonify({"error": "No image provided."})
 
     uploaded_file = request.files['image']
 

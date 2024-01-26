@@ -1,4 +1,4 @@
-from transformers import AutoConfig,ViTImageProcessor,ViTForImageClassification,AutoModel
+from transformers import ViTImageProcessor,ViTForImageClassification
 from PIL import Image
 import io
 
